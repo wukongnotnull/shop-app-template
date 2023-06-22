@@ -4,8 +4,9 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import axios from 'axios'
-Vue.prototype.$axios = axios
+import '@/permission'
 
+Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 new Vue({

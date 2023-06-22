@@ -16,7 +16,7 @@
             <router-link to="/login" v-else>登录/注册</router-link>
           </li>
           <li style="display: inline;">
-            <router-link to="">购物车</router-link>
+            <router-link to="/cart">购物车</router-link>
           </li>
         </ul>
       </div>

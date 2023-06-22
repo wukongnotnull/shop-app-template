@@ -52,6 +52,12 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import('../views/about')
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../views/cart'),
+    meta: { needAuth: true }
   }
 ]
 

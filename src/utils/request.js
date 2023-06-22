@@ -19,8 +19,6 @@ service.interceptors.request.use(
       // ['X-Token']  是一个自定义的 请求头参数
       config.headers.apifoxToken = getToken()
     }
-    // 判断是否需要 if-else
-    config.headers.apifoxToken = 'lAHdAINujH7LR9QhxCnTj9JmimXMPpJf'
     return config
   },
   error => {
