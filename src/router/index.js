@@ -3,10 +3,12 @@ import VueRouter from 'vue-router'
 import LayoutView from '@/layout'
 import MainView from '@/views/sub/MainView'
 import PhoneView from '@/views/sub/PhoneView'
-import CoumputerView from '@/views/sub/CoumputerView'
+import ComputerView from '@/views/sub/ComputerView'
 import RedMiRouterView from '@/views/sub/RedMiRouterView'
 import LoginView from '@/views/login'
+import BuyNowView from '@/views/buynow'
 import GoodsDetailView from '@/views/detail'
+import CashierMainView from '@/views/cashiermain'
 
 Vue.use(VueRouter)
 
@@ -29,7 +31,7 @@ const routes = [
       {
         path: 'computer',
         name: 'computer',
-        component: CoumputerView
+        component: ComputerView
       },
       {
         path: 'redmirouter',
@@ -42,6 +44,16 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/cashiermain',
+    name: 'cashiermain',
+    component: CashierMainView
+  },
+  {
+    path: '/buynow',
+    name: 'buynow',
+    component: BuyNowView
   },
   {
     path: '/goodsdetail/:goodsId',

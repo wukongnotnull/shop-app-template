@@ -7,3 +7,11 @@ export function getIndexMain () {
     method: 'get'
   })
 }
+
+// 根据 id 获得指定商品详情
+export function getGoodsById (id) {
+  return request({
+    url: '/goods/id/' + id,
+    method: 'get'
+  })
+}

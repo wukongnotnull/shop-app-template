@@ -1,5 +1,5 @@
 <template>
-  <!--      二级视图呈现位置-->
+  <!--      二级路由视图呈现位置-->
   <router-view></router-view>
 </template>
 

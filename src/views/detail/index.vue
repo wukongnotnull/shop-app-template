@@ -30,8 +30,9 @@
         <div class="grid-content">
           <div class="block">
             <el-carousel>
-              <el-carousel-item v-for="item in imgList" :key="item" style="background-color: white">
-                <img :src="item" alt="" width="100%" height="100%">
+              <el-carousel-item v-for="(item,index) in goods_detail.detail_carousal_imgs" :key="index"
+                                style="background-color: white">
+                <img :src="item.imgs_url" alt="" width="95%" height="100%">
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -39,27 +40,18 @@
       </el-col>
       <el-col :span="9">
         <div class="grid-content" style="text-align: left">
-          <h1>Redmi Note 12T Pro</h1>
-          <div>【512GB版本米金兑券立省100元】天玑 8200-Ultra 旗舰芯｜ LCD 护眼屏｜ 12GB + 512GB 超大存储｜ 5080mAh 超大电量 + 67W 旗舰闪充｜ 6400万像素快拍相机｜
-            潮流小立边设计｜ 小金刚品质 坚固耐用
+          <h1>{{ goods_detail.goods_name }}</h1>
+          <div>{{ goods_detail.goods_abstract }}
           </div>
-          <div style="color: red">小米自营 <br>1799 元1899 元</div>
-          <div style="margin-top: 10px">选择版本</div>
+          <div style="color: red">{{ goods_detail.goods_store_name }} <br>{{ goods_detail.real_price }} 元
+            {{ goods_detail.original_price }} 元
+          </div>
+          <div style="margin-top: 10px">选择规格</div>
           <div>
             <el-radio-group v-model="radio1" size="medium">
-              <el-radio-button label="12GB+512GB"></el-radio-button>
-              <el-radio-button label="80GB+128GB" style="margin-left: 10px"></el-radio-button>
-              <el-radio-button label="80GB+256GB"></el-radio-button>
-              <el-radio-button label="12GB+256GB" style="margin-left: 10px"></el-radio-button>
-            </el-radio-group>
-          </div>
-          <div style="margin-top: 10px">选择颜色</div>
-          <div>
-            <el-radio-group v-model="radio2" size="medium">
-              <el-radio-button label="冰雾白"></el-radio-button>
-              <el-radio-button label="碳纤黑" style="margin-left: 10px"></el-radio-button>
-              <br>
-              <el-radio-button label="晴海蓝"></el-radio-button>
+              <!--  规格单选按钮  -->
+              <el-radio-button v-for="(item ,index) in goods_detail.dimensions " :key="index"
+                               :label="item.dimension_attr"></el-radio-button>
             </el-radio-group>
           </div>
           数量：
@@ -67,8 +59,12 @@
                            label="描述文字"></el-input-number>
           <div>
             <el-button-group style="margin-top: 10px">
-              <el-button type="danger">立即购买</el-button>
-              <el-button type="warning">加入购物车</el-button>
+              <router-link to="/buynow">
+                <el-button type="danger">立即购买</el-button>
+              </router-link>
+              <router-link to="/cart">
+                <el-button type="warning">加入购物车</el-button>
+              </router-link>
             </el-button-group>
           </div>
         </div>
@@ -78,49 +74,21 @@
       </el-col>
     </el-row>
     <!--    第二行布局  宝贝详情 和宝贝评价-->
-    <el-row>
-      <el-col :span="3">
-        <div class="grid-content"></div>
-      </el-col>
-      <el-col :span="18">
-        <div class="grid-content">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="宝贝详情" name="first">
-              <div style="height: 400px">宝贝详情。。。。。</div>
-            </el-tab-pane>
-            <el-tab-pane label="宝贝评价" name="second">
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-              <div>宝贝评价。。。。</div>
-            </el-tab-pane>
-          </el-tabs>
-        </div>
-      </el-col>
-      <el-col :span="3">
-        <div class="grid-content"></div>
-      </el-col>
-    </el-row>
+    <desc-and-comment :send-comments="goods_detail.goods_comments" :send-desc="goods_detail.goods_full_desc"/>
   </div>
 
 </template>
 
 <script>
 import TopNavBar from '@/components/TopNavComp'
+import { getGoodsById } from '@/api/goods'
+import DescAndComment from '@/views/detail/DescAndComment'
 
 export default {
   name: 'GoodsDetailView',
   components: {
-    TopNavBar
+    TopNavBar,
+    DescAndComment
   },
   data () {
     return {
@@ -128,14 +96,12 @@ export default {
       input: '',
       radio2: '',
       num: 1,
-      activeName: 'second',
-      radio1: '12GB+512GB',
-      imgList: [
-        'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1685341970.69956639.png',
-        'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1685341970.69331585.png',
-        'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1685341970.74731516.png',
-        'https://cdn.cnbj0.fds.api.mi-img.com/b2c-shopapi-pms/pms_1685341970.71616051.png'
-      ]
+      activeName: 'first',
+      radio1: '12GB+512GB+冰雾白',
+      goods_detail: null
+      // comments 用于传入子组件
+      // comments: null,
+      // full_desc: null
     }
   },
   methods: {
@@ -145,6 +111,22 @@ export default {
     handleClick (tab, event) {
       console.log(tab, event)
     }
+  },
+  created () {
+    // 根据 id 获得商品详情
+    const id = this.$route.params.goodsId
+    console.log('id 为', id)
+    getGoodsById(id)
+      .then(response => {
+        console.log('根据 id 获得商品详情')
+        console.log(response.data)
+        this.goods_detail = response.data.result
+        // this.comments = response.data.result.goods_comments
+        // this.full_desc = response.data.result.goods_full_desc
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 }
 </script>

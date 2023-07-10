@@ -17,7 +17,7 @@
                   <el-input v-model="login.password" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit">登录</el-button>
+                  <el-button type="primary" @click="onLogin">登录</el-button>
                   <el-button @click="goBack">返回</el-button>
                 </el-form-item>
               </el-form>
@@ -30,6 +30,9 @@
                 <el-form-item label="用户名">
                   <el-input v-model="register.username"></el-input>
                 </el-form-item>
+                <el-form-item label="邮箱">
+                  <el-input v-model="register.email"></el-input>
+                </el-form-item>
                 <el-form-item label="密码">
                   <el-input v-model="register.password" type="password"></el-input>
                 </el-form-item>
@@ -37,7 +40,7 @@
                   <el-input v-model="register.repassword" type="password"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmit">注册</el-button>
+                  <el-button type="primary" @click="onRegister">注册</el-button>
                   <el-button @click="goBack">返回</el-button>
                 </el-form-item>
               </el-form>
@@ -50,6 +53,7 @@
 </template>
 
 <script>
+import { register } from '@/api/user'
 
 export default {
   name: 'LoginView',
@@ -62,6 +66,7 @@ export default {
       },
       register: {
         username: '',
+        email: '',
         password: '',
         repassword: ''
       }
@@ -75,16 +80,44 @@ export default {
       console.log(tab, event)
     },
     // 进行登录判断
-    onSubmit () {
+    onLogin () {
       // 该用户存在，登录成功 ,跳转到首页
       this.$store.dispatch('user/doLogin', this.login)
         .then(() => {
           this.$router.push({ path: '/' })
-        }).catch(error => {
+        })
+        .catch(error => {
         // 该用户不存在，登录失败，挑出一个提示框告知，登录失败
           this.$message('用户名或者密码错误，请重新登录')
           console.log(error)
         })
+    },
+    // 进行注册操作
+    onRegister () {
+      const {
+        username,
+        email,
+        password
+      } = this.register
+      // 注册就是添加用户，不涉及到state ，直接调用前端api
+      register({
+        username,
+        email,
+        password
+      })
+        .then(response => {
+          console.log(response.data)
+          if (response.data.status === 200) {
+            // this.$router.push({ name: 'login' })
+            this.$message.success('注册成功，请登录')
+          } else {
+            this.$message.error('注册失败')
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      console.log('注册中')
     }
   }
 }

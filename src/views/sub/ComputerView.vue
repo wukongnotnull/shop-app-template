@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'CoumputerView'
+  name: 'ComputerView'
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-<!--    大荧屏-->
+<!--    大荧屏 一级路由视图 显示的位置 -->
     <router-view></router-view>
   </div>
 </template>

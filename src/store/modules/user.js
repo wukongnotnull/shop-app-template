@@ -11,7 +11,7 @@ const getDefaultState = () => {
 
 const state = getDefaultState()
 
-// 只做 编写对 state 中的属性进行赋值方法，有点类似Java 中 setter 方法
+// 只做 编写对 state 中的属性进行赋值方法，有点类似 Java 中 setter 方法
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -32,7 +32,7 @@ const actions = {
       password
     } = userInfo
     return new Promise((resolve, reject) => {
-      // 使用 用户名和密码 调用 api 中的登录接口
+      // 使用 用户名和密码 调用 api 中的登录接口，向后端发送登录请求
       login({
         username,
         password
@@ -40,11 +40,11 @@ const actions = {
         .then(response => {
           const { data } = response
           // 存入 state 数据仓库
-          commit('SET_TOKEN', data.data.apifoxToken)
-          commit('SET_USERNAME', data.data.username)
+          commit('SET_TOKEN', data.result.apifoxToken)
+          commit('SET_USERNAME', data.result.username)
           // 存入 cookie 存储空间
-          setToken('apifoxToken', data.data.apifoxToken)
-          setToken('usernameKey', data.data.username)
+          setToken('apifoxToken', data.result.apifoxToken)
+          setToken('usernameKey', data.result.username)
           resolve()
         })
         .catch(error => {

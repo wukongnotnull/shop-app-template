@@ -4,6 +4,7 @@ import store from '@/store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 
+// 全局路由守卫
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (to.meta.needAuth) {
